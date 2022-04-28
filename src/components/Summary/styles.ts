@@ -12,22 +12,25 @@ export const Container = styled.main`
     border-radius: 0.25rem;
     color: var(--text-title);
     box-shadow: 2px 1px 9px rgba(0, 0, 0, 0.2);
+
+    header { 
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  
+    strong {
+      display: block;
+      margin-top: 1rem;
+      font-size: 2rem;
+      font-weight: 500;
+      line-height: 3rem;
+    }
+   
+    &.highlight-background{
+        background: var(--green);
+        color: #FFF;
+      }
   }
-
-  header { 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  strong {
-    display: block;
-    margin-top: 1rem;
-    font-size: 2rem;
-    font-weight: 500;
-    line-height: 3rem;
-  }
-
-
 
 `;
