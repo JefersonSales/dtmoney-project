@@ -1,5 +1,6 @@
 
-import { FormEvent, useState } from 'react';
+import { FormEvent, useContext, useState } from 'react';
+import { TransactionsContext } from '../../TransactionsContext';
 
 import Modal from 'react-modal';
 import incomeImg from '../../assets/income.svg';
@@ -17,13 +18,30 @@ interface NewTransactionModalProps {
   onRequestClose: () => void;
 }
 export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionModalProps) {
+
+  const {createTransaction} = useContext(TransactionsContext);
+
   const [title, setTitle] = useState('');
-  const [value, setValue] = useState(0);
+  const [amount, setAmount] = useState(0);
   const [category, setCategory] = useState('')
   const [type, setType] = useState('deposit');
 
-  function handleCreateNewTransaction(event: FormEvent) {
+  async function handleCreateNewTransaction(event: FormEvent) {
     event.preventDefault();
+
+    await createTransaction({
+      title,
+      amount,
+      category,
+      type
+    })
+
+    
+    setTitle('');
+    setAmount(0);
+    setCategory('');
+    setType('deposit');
+    onRequestClose();
   }
 
 
@@ -48,14 +66,13 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
         <input
           placeholder="Título"
           value={title}
-          onChange={e => setTitle(e.target.value)}
+          onChange={event => setTitle(event.target.value)}
         />
 
         <input
           type="number"
           placeholder="Valor"
-          value={value}
-          onChange={e => setValue(Number(e.target.value))}
+          onChange={event => setAmount(Number(event.target.value))}
         />
 
         <TransactionTypeContainer>
@@ -84,7 +101,7 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
         <input
           placeholder="Categoria"
           value={category}
-          onChange={e => setCategory(e.target.value)}
+          onChange={event => setCategory(event.target.value)}
         />
         
         <button type="submit">
